@@ -76,6 +76,7 @@ async function fetchData(url) {
 		// After content is generated and added to the DOM, set up the event listeners
 		setupEventListeners();
 		searchBar();
+		
 
 	} catch (error) {
 		console.error('Error fetching data:', error);
@@ -96,7 +97,7 @@ function getMatches(val){
 	return names2.filter(name =>{
 		// const regex =  new RegExp(val,'gi');
 		// return name.match(regex);
-		if(name.includes(val) && name.startsWith(val)){
+		if((name.includes(val)) && (name.startsWith(val))){
 			return name;
 		}
 		
@@ -117,15 +118,23 @@ function getResults(val){
 	
 	con +=`<p class ="jkc"data-member="${data}">${data}</p>`
 	});
-	console.log(con);
+	
 	container.innerHTML=con;
-	}
-	const well =document.querySelectorAll('.jkc');
-	well.forEach((item)=>{
-			item.addEventListener('click',(tag)=>{
-				getSearchResult(`https://pokeapi.co/api/v2/pokemon/${tag.target.textContent}`, `${tag.target.textContent}`);
-			})
-	})
+	
+	// const well =container.querySelectorAll('.jkc');
+	// well.forEach((item)=>{
+	// 		item.addEventListener('click',(tag)=>{
+	// 			console.log('clicked');
+	// 			getSearchResult(`https://pokeapi.co/api/v2/pokemon/${tag.target.textContent}`, `${tag.target.textContent}`);
+	// 		})
+	// })
+	document.querySelector('.search-results').addEventListener('click', (event) => {
+		if (event.target && event.target.classList.contains('jkc')) {
+			console.log('clicked');
+			getSearchResult(`https://pokeapi.co/api/v2/pokemon/${event.target.textContent}`, `${event.target.textContent}`);
+		}
+	});
+}
 	
     
 	
@@ -134,26 +143,19 @@ function searchBar(){
 	
 	const search = document.querySelector('.search');
 	
+	
 	search.addEventListener('input',(e)=>{
 		
 		
 			getSearchDisplayOn(search.value);
-			getResults(search.value);
+			getResults(search.value.toLowerCase());
+			
 			
 			
 			
 				
 	})
-	search.addEventListener('change',(e)=>{
-		
-		
-		getSearchDisplayOn(search.value);
-		getResults(search.value);
-		
-		
-		
-			
-})
+	
 	
 }
 async function getSearchResult(results,name) {
@@ -222,10 +224,16 @@ function setupEventListeners() {
 			}
 		});
 	});
-	document.addEventListener('click',()=>{
+	document.addEventListener('click', (event) => {
 		const searchDisplay = document.querySelector('.search-results');
-		searchDisplay.style.display='none';
-	})
+		const searchBar = document.querySelector('.search');
+	
+		// Check if the click is outside the search bar and results dropdown
+		if (!searchBar.contains(event.target) && !searchDisplay.contains(event.target)) {
+			searchDisplay.style.display = 'none';
+		}
+	});
+	
 	const displayable = document.querySelector('.search-results');
 	displayable.addEventListener('click',()=>{
 		const searchDisplay = document.querySelector('.search-results');
