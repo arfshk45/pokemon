@@ -1,0 +1,230 @@
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+    *{
+        font-family: Roboto;
+        font-weight: 600;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #EE1515;
+        
+        
+    }
+    .pokeball{
+        width:60px;
+        height: 60px;
+        border-radius: 100%;
+        animation-name: new;
+        animation-iteration-count: infinite;
+        animation-duration: 2s;
+        animation-fill-mode: forwards;
+        animation-direction:alternate-reverse;
+        animation-timing-function: ease-in-out;
+    }
+    @keyframes new {
+        0%{
+            transform: rotate(0deg);
+        }
+        100%{
+            transform: rotate(720deg);
+        }
+        
+    }
+    header{
+        background-color: white;
+        padding:15px;
+        height:auto;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position:fixed;
+        width: 100vw;
+        top:0;
+        left:0;
+        flex-shrink: inherit;
+        z-index: 1000;
+        border-bottom: 3px solid rgb(207, 204, 204);
+        
+        
+    }
+    header img{
+        width:180px;
+        cursor: pointer;
+    }
+    header input{
+        height:40px;
+        width: 250px;;
+        border:none;
+        
+        border-radius: 100px;
+        background: #F0F0F0;
+        font-size: 20px;
+        padding-left:30px;
+        margin-top: 15px;
+        outline:none;
+        flex: 0.75;
+        
+        
+    }
+    .search-results{
+        max-height: 300px;
+        margin: 20px 0px;
+
+        width:250px;
+        border:3px solid rgb(207, 204, 204);
+        position:fixed;
+        background-color: white;
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        overflow-y:scroll;
+        padding:0;
+        display: none;
+        
+        
+        
+        
+        
+        
+        
+    }
+    .search-display{
+        background-color: white;
+    }
+    
+    .search-results > *{
+        border-bottom: 3px solid rgb(207, 204, 204);
+        width:100%;
+        background-color: white;
+        cursor: pointer;
+        
+    }
+    /* p{
+        width:100%;
+    } */
+    .all{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        margin-top: 100px;
+        padding-top:30px;
+        row-gap: 30px;
+        column-gap: 40px;
+        background-color: #EE1515;
+        background-origin: border-box;
+        background-size: cover;
+        background-attachment: fixed;
+        color: white;
+        height: auto;
+        
+        
+
+        
+        
+        
+
+    }
+    .container {
+	display: flex;
+    
+
+	flex-direction: column;
+	
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    
+    }
+    .image img{
+	width: 150px;
+    
+	
+    }
+    p{
+        margin-top: 20px;
+    }
+    .buttons{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        padding:10px;
+        position:fixed;
+        width: 100%;
+        z-index: 2;
+        bottom:0;
+        left:0;
+        background-color: white;
+        
+    }
+    button{
+        font-size: 15px;
+        background-color: #EE1515;
+        color: white;
+        height:50px;
+        width: 80px;
+        border-radius: 10px;
+        border: 1px solid black;
+        
+        
+        cursor:pointer;
+    }
+    .buttons{
+        border-top:3px solid rgb(207, 204, 204); ;
+    }
+    
+    .together{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background-color: white;
+    }
+    .bake{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 400px;
+        gap: 20px;
+        background-color: white;
+    }
+    
+    @media screen and (max-width: 720px) {
+        .together{
+            gap: 10px;
+        }
+        .all{
+        margin-top: 180px;
+        grid-template-columns: 1fr 1fr;
+       
+        }
+        header{
+            flex-direction: column;
+        }
+        header img{
+            width: 190px;
+        }
+        
+        
+        
+        
+        
+        
+    }
+        
