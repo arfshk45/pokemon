@@ -76,7 +76,7 @@ async function fetchData(url) {
 		// After content is generated and added to the DOM, set up the event listeners
 		setupEventListeners();
 		searchBar();
-		
+
 
 	} catch (error) {
 		console.error('Error fetching data:', error);
@@ -95,13 +95,15 @@ function updateNavigationButtons(prevUrl, nextUrl) {
 }
 function getMatches(val){
 	return names2.filter(name =>{
-		// const regex =  new RegExp(val,'gi');
-		// return name.match(regex);
-		if((name.includes(val)) && (name.startsWith(val))){
-			return name;
+		const regex =  new RegExp(val,'gi');
+		
+		if((name.match(regex).includes(val)) && (name.match(regex).startsWith(val))){
+			return name.match(regex);
 		}
 		
 	});
+	// Normalize the input value to lower case and trim whitespace
+	
 }
 function getSearchDisplayOn(val) {
 	const searchDisplay = document.querySelector('.search-results');
