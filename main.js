@@ -1,11 +1,6 @@
 
 
 
-
-
-
-
-
 const home = document.querySelector('.homer');
 home.addEventListener('click', () => {
     fetchData('https://pokeapi.co/api/v2/pokemon/');
@@ -32,7 +27,7 @@ async function fetchDataForSearch(url) {
 
     } catch (error) {
         console.error('Error fetching data:', error);
-        return ['', 0, 0, 0, 0]; // Return a default value in case of error
+        return ['', 0, 0, 0, 0]; 
     }
 }
 
@@ -53,7 +48,7 @@ async function fetchImage(url) {
         return [data_img, hp, attack, defense, speed];
     } catch (error) {
         console.error('Error fetching image:', error);
-        return ['', 0, 0, 0, 0]; // Return a default value in case of error
+        return ['', 0, 0, 0, 0]; 
     }
 }
 
@@ -105,7 +100,7 @@ function getResults(val) {
     const datas = getMatches(val);
     if (datas.length !== 0) {
         const container = document.querySelector('.search-results');
-        container.innerHTML = ''; // Clear previous results
+        container.innerHTML = ''; 
 
         datas.forEach((data) => {
             const p = document.createElement('p');
@@ -257,7 +252,7 @@ function setupEventListeners() {
     });
 }
 
-// Initialize the first fetch
+
 fetchData('https://pokeapi.co/api/v2/pokemon/');
 
 
