@@ -1,9 +1,64 @@
 
+document.addEventListener("DOMContentLoaded", () => {
+    // Show loader as soon as the page starts loading
+    loader();
 
+    // Call fetchDataWithCheck to load data when the page loads
+    
+    const savedPageUrl = localStorage.getItem('currentPageUrl');
+    const savedPageNo = localStorage.getItem('currentPageNo') || 1;
+    const pageUrl = savedPageUrl || 'https://pokeapi.co/api/v2/pokemon/';
+    
+    // Call fetchDataWithCheck to load data when the page loads
+    updatePageNo(savedPageNo);
+    fetchDataWithCheck(pageUrl);
+});
+
+function loader(time){
+    
+        const loader = document.querySelector('.spinner');
+        const content  = document.querySelector('.all');
+        loader.style.display='block';
+        content.style.display='none'
+        setTimeout(() =>{
+            loader.style.display='none';
+            content.style.display='grid';
+        },time)
+
+}
+
+
+async function isOnline() {
+    try {
+        
+        // Try to fetch a small static resource from a reliable server
+        const response = await fetch('https://www.google.com/favicon.ico', { method: 'HEAD', mode: 'no-cors' });
+        return response.ok || response.status === 0; // This confirms we're online
+    } catch (error) {
+        return false; // If fetch fails, we assume we're offline
+    }
+}
+
+async function fetchDataWithCheck(url) {
+loader();
+    const onlineStatus = await isOnline();
+    if (!onlineStatus) {
+        
+        const displayForOffline = document.querySelector('.error-msg');
+            displayForOffline.style.display=`block`;
+            displayForOffline.innerHTML=`<h3>YOU ARE OFFLINE</h3>`
+            loader(0);
+        return;
+    }
+    fetchData(url);
+}
 
 const home = document.querySelector('.homer');
 home.addEventListener('click', () => {
-    fetchData('https://pokeapi.co/api/v2/pokemon/');
+    localStorage.setItem('currentPageNo', 1);
+    localStorage.setItem('currentPageUrl', 'https://pokeapi.co/api/v2/pokemon/');
+    updatePageNo(1);
+    fetchDataWithCheck('https://pokeapi.co/api/v2/pokemon/');
 });
 
 let names = await fetchDataForSearch('https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0');
@@ -13,6 +68,15 @@ const names2 = names.sort((a, b) => {
 
 async function fetchDataForSearch(url) {
     try {
+        const onlineStatus = await isOnline();
+        if (!onlineStatus) {
+            const displayForOffline = document.querySelector('.error-msg');
+            displayForOffline.style.display=`block`;
+            displayForOffline.innerHTML=`<h3>YOU ARE OFFLINE</h3>`
+            
+            return ['', 0, 0, 0, 0];
+        }
+
         const burger = [];
         const response = await fetch(url);
 
@@ -27,12 +91,18 @@ async function fetchDataForSearch(url) {
 
     } catch (error) {
         console.error('Error fetching data:', error);
-        return ['', 0, 0, 0, 0]; 
+        return ['', 0, 0, 0, 0];
     }
 }
 
 async function fetchImage(url) {
     try {
+        const onlineStatus = await isOnline();
+        if (!onlineStatus) {
+            alert("You are offline. Cannot fetch images.");
+            return ['', 0, 0, 0, 0];
+        }
+
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error("Could not fetch resource");
@@ -48,7 +118,7 @@ async function fetchImage(url) {
         return [data_img, hp, attack, defense, speed];
     } catch (error) {
         console.error('Error fetching image:', error);
-        return ['', 0, 0, 0, 0]; 
+        return ['', 0, 0, 0, 0];
     }
 }
 
@@ -64,10 +134,19 @@ async function fetchData(url) {
 
         updateNavigationButtons(previous, next);
 
+        localStorage.setItem('currentPageUrl', url);
+
+        const currentPageNo = parseInt(localStorage.getItem('currentPageNo') || 1);
+        updatePageNo(currentPageNo); 
+
+
+        if (previous) localStorage.setItem('previousPageUrl', previous);
+        if (next) localStorage.setItem('nextPageUrl', next);
+
         const content = await generateContent(results);
         const allContainer = document.querySelector('.all');
         allContainer.replaceChildren(...content);
-
+        loader(0);
         setupEventListeners();
         searchBar();
 
@@ -79,12 +158,31 @@ async function fetchData(url) {
 function updateNavigationButtons(prevUrl, nextUrl) {
     const prevButton = document.querySelector('.prev');
     const nextButton = document.querySelector('.next');
-
+    
     prevButton.disabled = !prevUrl;
     nextButton.disabled = !nextUrl;
 
-    prevButton.onclick = () => prevUrl && fetchData(prevUrl);
-    nextButton.onclick = () => nextUrl && fetchData(nextUrl);
+    localStorage.setItem('previousPageUrl', prevUrl || '');
+    localStorage.setItem('nextPageUrl', nextUrl || '');
+    
+     prevButton.onclick = () => {
+        if (prevUrl) {
+            const currentPageNo = parseInt(localStorage.getItem('currentPageNo') || 1) - 1;
+            localStorage.setItem('currentPageNo', currentPageNo); // Decrease page number
+            fetchDataWithCheck(prevUrl);
+        }
+    };
+    nextButton.onclick = () => {
+        if (nextUrl) {
+            const currentPageNo = parseInt(localStorage.getItem('currentPageNo') || 1) + 1;
+            localStorage.setItem('currentPageNo', currentPageNo); // Increase page number
+            fetchDataWithCheck(nextUrl);
+        }
+    };
+}
+function updatePageNo(pageNo){
+    const pageNoSpan = document.querySelector('.page-no');
+    pageNoSpan.textContent=`${pageNo}`;
 }
 
 function getMatches(val) {
@@ -97,10 +195,12 @@ function getSearchDisplayOn(val) {
 }
 
 function getResults(val) {
+    
+
     const datas = getMatches(val);
     if (datas.length !== 0) {
         const container = document.querySelector('.search-results');
-        container.innerHTML = ''; 
+        container.innerHTML = '';
 
         datas.forEach((data) => {
             const p = document.createElement('p');
@@ -252,9 +352,7 @@ function setupEventListeners() {
     });
 }
 
-
-fetchData('https://pokeapi.co/api/v2/pokemon/');
-
+// Initial fetch of data
 
 
 
