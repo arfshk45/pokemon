@@ -182,7 +182,7 @@ function updateNavigationButtons(prevUrl, nextUrl) {
 }
 function updatePageNo(pageNo){
     const pageNoSpan = document.querySelector('.page-no');
-    pageNoSpan.textContent=`${pageNo}`;
+    pageNoSpan.textContent=`Page:${pageNo}`;
 }
 
 function getMatches(val) {
