@@ -46,7 +46,7 @@ loader();
         
         const displayForOffline = document.querySelector('.error-msg');
             displayForOffline.style.display=`block`;
-            displayForOffline.innerHTML=`<h3>YOU ARE OFFLINE</h3>`
+            displayForOffline.innerHTML=`<h3>You Are Offline</h3>`
             loader(0);
         return;
     }

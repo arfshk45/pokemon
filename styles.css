@@ -30,10 +30,15 @@
     
 
 .page-no{
+    position: absolute;
+    top:2px;
+    right:2px;
     border-radius: 50%;
     height:30px;
     width:30px;
-    padding: 5px;
+    padding: 0px;
+    font-size: 20px;
+    text-align: center;
     color:white;
     border: 1px solid black;
 }
@@ -124,9 +129,9 @@
     }
     header{
         background-color: white;
-        padding:15px;
+        padding:10px;
         height:auto;
-        text-align: center;
+    
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -135,6 +140,8 @@
         top:0;
         left:0;
         flex-shrink: inherit;
+        
+        
         z-index: 1000;
         border-bottom: 3px solid rgb(207, 204, 204);
         
@@ -142,8 +149,11 @@
     }
     header img{
         width:180px;
+        
         cursor: pointer;
+        background-color: white;
     }
+
     header input{
         height:40px;
         width: 250px;;
@@ -215,6 +225,10 @@
         
 
     }
+    .homer{
+        width: 110px;
+        margin-right:10px;
+    }
     .container {
 	display: flex;
     
@@ -269,7 +283,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 5px;
-        margin-right: 40px;
+        
         background-color: white;
     }
     .bake{
@@ -293,9 +307,10 @@
         header{
             flex-direction: column;
         }
-        header img{
-            width: 190px;
+        .together{
+            margin-bottom:10px;
         }
+        
         
         
         
