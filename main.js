@@ -212,7 +212,7 @@ function getResults(val) {
 
         container.addEventListener('click', (event) => {
             if (event.target && event.target.classList.contains('jkc')) {
-                console.log('clicked');
+                
                 getSearchResult(`https://pokeapi.co/api/v2/pokemon/${event.target.textContent}`, event.target.textContent);
             }
         });
@@ -225,10 +225,13 @@ function searchBar() {
     search.addEventListener('input', (e) => {
         getSearchDisplayOn(search.value);
         getResults(search.value.toLowerCase());
+        
     });
 }
 
 async function getSearchResult(results, name) {
+    const search = document.querySelector('.search');
+    search.value='';
     const allContainer = document.querySelector('.all');
 
     const imageUrl = await fetchImage(results);
@@ -275,7 +278,7 @@ async function getSearchResult(results, name) {
 
     const searchDisplay = document.querySelector('.search-results');
     searchDisplay.style.display = 'none';
-
+    
     setupEventListeners();
 }
 
